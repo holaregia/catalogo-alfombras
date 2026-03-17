@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Catalogo de Alfombras</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F8F2E7;
+      --cream-dark: #EDE4D3;
+      --terracotta: #B5624A;
+      --terracotta-light: #D4896D;
+      --brown: #2A1A0E;
+      --brown-mid: #5C3A22;
+      --gold: #C9973A;
+      --gold-light: #E8C880;
+      --sage: #7A8C6E;
+      --sand: #D6C4A0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--brown);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* NOISE TEXTURE OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* ===== HEADER / NAV ===== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(248, 242, 231, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--sand);
+      padding: 0 3rem;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--brown);
+      text-decoration: none;
+    }
+
+    .nav-logo span {
+      color: var(--terracotta);
+      font-style: italic;
+    }
+
+    .nav-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--brown-mid);
+      opacity: 0.75;
+    }
+
+    .nav-contact {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      text-decoration: none;
+      border: 1px solid var(--terracotta);
+      padding: 0.45rem 1.1rem;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+
+    .nav-contact:hover {
+      background: var(--terracotta);
+      color: var(--cream);
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 520px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 5rem 3rem 4rem;
+      gap: 2rem;
+    }
+
+    .hero-bg-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.06;
+      background-image:
+        repeating-linear-gradient(45deg, var(--terracotta) 0, var(--terracotta) 1px, transparent 0, transparent 50%),
+        repeating-linear-gradient(-45deg, var(--gold) 0, var(--gold) 1px, transparent 0, transparent 50%);
+      background-size: 30px 30px;
+    }
+
+    .hero-accent-circle {
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(181,98,74,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-text { position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--terracotta);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 400;
+      line-height: 1.12;
+      color: var(--brown);
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--terracotta);
+    }
+
+    .hero-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--brown-mid);
+      max-width: 420px;
+      margin-bottom: 2.2rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .hero-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--brown);
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--brown-mid);
+      opacity: 0.7;
+      margin-top: 0.3rem;
+    }
+
+    /* HERO VISUAL */
+    .hero-visual {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .hero-rug-showcase {
+      position: relative;
+      width: 380px;
+      height: 440px;
+    }
+
+    .rug-card-hero {
+      position: absolute;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(42,26,14,0.18);
+    }
+
+    .rug-card-hero.main {
+      width: 280px;
+      height: 360px;
+      top: 20px;
+      left: 40px;
+      z-index: 2;
+    }
+
+    .rug-card-hero.behind {
+      width: 240px;
+      height: 300px;
+      top: 80px;
+      left: 130px;
+      z-index: 1;
+      transform: rotate(4deg);
+      opacity: 0.7;
+    }
+
+    .rug-pattern {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* SVG Rug Patterns */
+    .pattern-moroccan { background: linear-gradient(135deg, #8B3A2A 0%, #C17E5C 30%, #E8C880 60%, #7A5C3A 100%); }
+    .pattern-geometric { background: linear-gradient(135deg, #3D5A3E 0%, #7A8C6E 40%, #D6C4A0 80%, #5C3A22 100%); }
+    .pattern-persian { background: linear-gradient(135deg, #1A2A4A 0%, #2E4A7A 40%, #C9973A 80%, #8B1A1A 100%); }
+    .pattern-boho { background: linear-gradient(135deg, #D4896D 0%, #F5D5B8 50%, #B5624A 100%); }
+    .pattern-modern { background: linear-gradient(135deg, #2A1A0E 0%, #5C3A22 50%, #C9973A 100%); }
+    .pattern-nordic { background: linear-gradient(135deg, #EDEDEA 0%, #C8C4B8 40%, #7A7A72 100%); }
+
+    /* ===== FILTERS ===== */
+    .filter-bar {
+      background: var(--cream-dark);
+      border-top: 1px solid var(--sand);
+      border-bottom: 1px solid var(--sand);
+      padding: 1.2rem 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--brown-mid);
+      margin-right: 0.5rem;
+    }
+
+    .filter-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      padding: 0.4rem 1.1rem;
+      border: 1px solid transparent;
+      border-radius: 50px;
+      background: transparent;
+      color: var(--brown-mid);
+      cursor: pointer;
+      transition: all 0.22s ease;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--terracotta);
+      color: var(--terracotta);
+    }
+
+    .filter-btn.active {
+      background: var(--terracotta);
+      color: var(--cream);
+      border-color: var(--terracotta);
+    }
+
+    /* ===== CATALOG GRID ===== */
+    .catalog-section {
+      padding: 3.5rem 3rem 5rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--brown);
+    }
+
+    .section-count {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      color: var(--brown-mid);
+      opacity: 0.6;
+      margin-bottom: 0.2rem;
+    }
+
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    /* ===== PRODUCT CARD ===== */
+    .product-card {
+      background: #fff;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(42,26,14,0.07);
+      transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      cursor: default;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 50px rgba(42,26,14,0.15);
+    }
+
+    .product-card:hover .card-img-inner {
+      transform: scale(1.04);
+    }
+
+    .card-img-wrap {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4/5;
+    }
+
+    .card-img-inner {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      border-radius: 2px;
+      z-index: 2;
+    }
+
+    .badge-new { background: var(--terracotta); color: #fff; }
+    .badge-limited { background: var(--gold); color: var(--brown); }
+    .badge-classic { background: var(--brown); color: var(--cream); }
+
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(42,26,14,0);
+      transition: background 0.3s ease;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 1.5rem;
+      z-index: 1;
+    }
+
+    .product-card:hover .card-overlay {
+      background: rgba(42,26,14,0.22);
+    }
+
+    .card-inquire-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.7rem 1.6rem;
+      background: var(--cream);
+      color: var(--brown);
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transform: translateY(10px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .product-card:hover .card-inquire-btn {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card-inquire-btn:hover {
+      background: var(--terracotta);
+      color: #fff;
+    }
+
+    .card-body {
+      padding: 1.3rem 1.4rem 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-category {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 0.4rem;
+    }
+
+    .card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--brown);
+      line-height: 1.35;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--brown-mid);
+      opacity: 0.8;
+      flex: 1;
+      margin-bottom: 1rem;
+    }
+
+    .card-meta {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--cream-dark);
+    }
+
+    .card-meta-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .meta-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--brown-mid);
+      opacity: 0.55;
+      margin-bottom: 0.15rem;
+    }
+
+    .meta-value {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--brown);
+    }
+
+    .card-colors {
+      display: flex;
+      gap: 5px;
+      margin-left: auto;
+    }
+
+    .color-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(42,26,14,0.12);
+    }
+
+    /* ===== FEATURED BANNER ===== */
+    .featured-banner {
+      margin: 0 3rem 3rem;
+      background: var(--brown);
+      border-radius: 6px;
+      padding: 3.5rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 2rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .featured-banner::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: 200px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,151,58,0.15) 0%, transparent 70%);
+    }
+
+    .featured-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 0.8rem;
+    }
+
+    .featured-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 400;
+      color: var(--cream);
+      line-height: 1.2;
+      margin-bottom: 0.8rem;
+    }
+
+    .featured-title em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    .featured-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--sand);
+      line-height: 1.7;
+      max-width: 480px;
+    }
+
+    .featured-visual {
+      width: 200px;
+      height: 250px;
+      border-radius: 4px;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+      opacity: 0.9;
+    }
+
+    /* ===== CONTACT SECTION ===== */
+    .contact-section {
+      background: var(--cream-dark);
+      border-top: 1px solid var(--sand);
+      padding: 4rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .contact-text .section-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 1rem;
+    }
+
+    .contact-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--brown);
+      margin-bottom: 1rem;
+    }
+
+    .contact-text p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--brown-mid);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--brown-mid);
+      opacity: 0.75;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      padding: 0.7rem 1rem;
+      border: 1px solid var(--sand);
+      border-radius: 3px;
+      background: var(--cream);
+      color: var(--brown);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--terracotta);
+    }
+
+    .form-group textarea { resize: vertical; min-height: 100px; }
+
+    .form-submit {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.9rem 2rem;
+      background: var(--terracotta);
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      align-self: flex-start;
+    }
+
+    .form-submit:hover {
+      background: var(--brown);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--brown);
+      color: var(--sand);
+      padding: 2rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--cream);
+    }
+
+    .footer-logo span { color: var(--terracotta-light); font-style: italic; }
+
+    .footer-note {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      opacity: 0.5;
+    }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(42,26,14,0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--cream);
+      border-radius: 6px;
+      padding: 2.5rem;
+      max-width: 500px;
+      width: 100%;
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.open .modal {
+      transform: translateY(0);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.2rem;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--brown-mid);
+      line-height: 1;
+    }
+
+    .modal-close:hover { color: var(--terracotta); }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 0.4rem;
+      color: var(--brown);
+    }
+
+    .modal-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: var(--brown-mid);
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+
+    .modal-contact-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .modal-option {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid var(--sand);
+      border-radius: 4px;
+      text-decoration: none;
+      color: var(--brown);
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+
+    .modal-option:hover {
+      border-color: var(--terracotta);
+      background: rgba(181,98,74,0.05);
+    }
+
+    .modal-option-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .icon-wa { background: #25D366; color: #fff; }
+    .icon-email { background: var(--terracotta); color: #fff; }
+    .icon-phone { background: var(--brown-mid); color: var(--cream); }
+
+    /* ===== ANIMATE IN ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-in {
+      animation: fadeUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.22s; }
+    .delay-3 { animation-delay: 0.34s; }
+    .delay-4 { animation-delay: 0.46s; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      header { padding: 0 1.5rem; }
+      .nav-tagline { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 3rem 1.5rem 2rem; min-height: auto; }
+      .hero-visual { justify-content: center; }
+      .filter-bar { padding: 1rem 1.5rem; }
+      .catalog-section { padding: 2.5rem 1.5rem 4rem; }
+      .featured-banner { margin: 0 1.5rem 2.5rem; padding: 2.5rem 2rem; grid-template-columns: 1fr; }
+      .featured-visual { display: none; }
+      .contact-section { grid-template-columns: 1fr; padding: 3rem 1.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
+    }
+
+    /* SVG pattern fills for rug cards */
+    .rug-svg-fill {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="#" class="nav-logo">Casa<span>Alfombras</span></a>
+  <span class="nav-tagline">Coleccion Artesanal</span>
+  <a href="#contacto" class="nav-contact">Consultar</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-accent-circle"></div>
+  <div class="hero-text">
+    <div class="hero-eyebrow animate-in">Catalogo 2025 &mdash; 2026</div>
+    <h1 class="hero-title animate-in delay-1">Alfombras que<br>cuentan <em>historias</em></h1>
+    <p class="hero-desc animate-in delay-2">Cada pieza es seleccionada a mano. Desde estilos boho y marroquies hasta disenos modernos y clasicos persas.</p>
+    <div class="hero-stats animate-in delay-3">
+      <div>
+        <div class="hero-stat-num">24+</div>
+        <div class="hero-stat-label">Modelos</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">6</div>
+        <div class="hero-stat-label">Estilos</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">100%</div>
+        <div class="hero-stat-label">Artesanal</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual animate-in delay-4">
+    <div class="hero-rug-showcase">
+      <div class="rug-card-hero behind">
+        <svg class="rug-svg-fill" viewBox="0 0 240 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="geo1" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+              <rect width="40" height="40" fill="#3D5A3E"/>
+              <polygon points="20,4 36,20 20,36 4,20" fill="none" stroke="#7A8C6E" stroke-width="1.5"/>
+              <circle cx="20" cy="20" r="4" fill="#D6C4A0"/>
+            </pattern>
+          </defs>
+          <rect width="240" height="300" fill="url(#geo1)"/>
+          <rect x="15" y="15" width="210" height="270" fill="none" stroke="#D6C4A0" stroke-width="2"/>
+          <rect x="25" y="25" width="190" height="250" fill="none" stroke="#7A8C6E" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="rug-card-hero main">
+        <svg class="rug-svg-fill" viewBox="0 0 280 360" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="morocc" x="0" y="0" width="56" height="56" patternUnits="userSpaceOnUse">
+              <rect width="56" height="56" fill="#8B3A2A"/>
+              <path d="M28,4 L52,28 L28,52 L4,28 Z" fill="none" stroke="#E8C880" stroke-width="1.5"/>
+              <path d="M28,12 L44,28 L28,44 L12,28 Z" fill="none" stroke="#C17E5C" stroke-width="1"/>
+              <circle cx="28" cy="28" r="5" fill="#E8C880"/>
+              <circle cx="28" cy="28" r="2.5" fill="#8B3A2A"/>
+            </pattern>
+          </defs>
+          <rect width="280" height="360" fill="url(#morocc)"/>
+          <rect x="14" y="14" width="252" height="332" fill="none" stroke="#E8C880" stroke-width="2.5"/>
+          <rect x="24" y="24" width="232" height="312" fill="none" stroke="#C17E5C" stroke-width="1"/>
+          <path d="M14,14 L38,14 M14,14 L14,38" stroke="#E8C880" stroke-width="3"/>
+          <path d="M266,14 L242,14 M266,14 L266,38" stroke="#E8C880" stroke-width="3"/>
+          <path d="M14,346 L38,346 M14,346 L14,322" stroke="#E8C880" stroke-width="3"/>
+          <path d="M266,346 L242,346 M266,346 L266,322" stroke="#E8C880" stroke-width="3"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="filter-label">Filtrar por:</span>
+  <button class="filter-btn active" data-filter="all">Todos</button>
+  <button class="filter-btn" data-filter="marroqui">Marroqui</button>
+  <button class="filter-btn" data-filter="persa">Persa</button>
+  <button class="filter-btn" data-filter="geometrico">Geometrico</button>
+  <button class="filter-btn" data-filter="boho">Boho</button>
+  <button class="filter-btn" data-filter="moderno">Moderno</button>
+  <button class="filter-btn" data-filter="nordico">Nordico</button>
+</div>
+
+<!-- CATALOG -->
+<section class="catalog-section">
+  <div class="section-header">
+    <h2 class="section-title">Nuestra Coleccion</h2>
+    <div>
+      <div class="section-count" id="count-label">Mostrando 9 productos</div>
+    </div>
+  </div>
+  <div class="catalog-grid" id="catalog-grid">
+    <!-- Cards inserted by JS -->
+  </div>
+</section>
+
+<!-- FEATURED BANNER -->
+<div class="featured-banner">
+  <div>
+    <div class="featured-eyebrow">Pieza Destacada</div>
+    <h2 class="featured-title">La Kashan <em>Imperial</em><br>ya esta disponible</h2>
+    <p class="featured-desc">Una alfombra persa de nudo a mano con mas de 300 nudos por pulgada cuadrada. Disenada para durar generaciones y convertirse en el centro de cualquier espacio.</p>
+  </div>
+  <div class="featured-visual">
+    <svg viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg" width="200" height="250">
+      <defs>
+        <pattern id="persian-feat" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+          <rect width="50" height="50" fill="#1A2A4A"/>
+          <path d="M25,5 L45,25 L25,45 L5,25 Z" fill="none" stroke="#C9973A" stroke-width="1.5"/>
+          <circle cx="25" cy="25" r="6" fill="none" stroke="#C9973A" stroke-width="1"/>
+          <circle cx="25" cy="25" r="2" fill="#C9973A"/>
+          <circle cx="5" cy="5" r="2" fill="#8B1A1A"/>
+          <circle cx="45" cy="5" r="2" fill="#8B1A1A"/>
+          <circle cx="5" cy="45" r="2" fill="#8B1A1A"/>
+          <circle cx="45" cy="45" r="2" fill="#8B1A1A"/>
+        </pattern>
+      </defs>
+      <rect width="200" height="250" fill="url(#persian-feat)"/>
+      <rect x="10" y="10" width="180" height="230" fill="none" stroke="#C9973A" stroke-width="2"/>
+      <rect x="18" y="18" width="164" height="214" fill="none" stroke="#8B1A1A" stroke-width="1"/>
+    </svg>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contacto">
+  <div class="contact-text">
+    <div class="section-eyebrow">Consultas y Pedidos</div>
+    <h2>Hablemos sobre la alfombra perfecta para tu espacio</h2>
+    <p>No hay carrito de compras porque cada alfombra merece una conversacion. Envianos un mensaje con tus medidas, estilo preferido y te asesoramos personalmente.</p>
+  </div>
+  <form class="contact-form" onsubmit="handleFormSubmit(event)">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" placeholder="Tu nombre" />
+      </div>
+      <div class="form-group">
+        <label>Telefono / WhatsApp</label>
+        <input type="tel" placeholder="+54 11 ..." />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Producto de interes</label>
+      <select>
+        <option value="">Seleccionar alfombra...</option>
+        <option>Karim Marroqui Roja - 2x3m</option>
+        <option>Zara Geometrica Verde - 1.5x2m</option>
+        <option>Kashan Imperial Azul - 2.5x3.5m</option>
+        <option>Luna Boho Natural - 1.6x2.3m</option>
+        <option>Atlas Moderno Carbon - 2x2m</option>
+        <option>Otro / Consulta general</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Mensaje</label>
+      <textarea placeholder="Contanos sobre el espacio, medidas que necesitas, colores..."></textarea>
+    </div>
+    <button type="submit" class="form-submit">Enviar Consulta</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Casa<span>Alfombras</span></div>
+  <div class="footer-note">Catalogo informativo &mdash; Solo consultas, no ventas online</div>
+</footer>
+
+<!-- MODAL INQUIRE -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModalDirect()">&times;</button>
+    <div class="modal-title" id="modal-title">Consultar producto</div>
+    <div class="modal-sub" id="modal-sub">Te responderemos a la brevedad</div>
+    <div class="modal-contact-options">
+      <a href="https://wa.me/5491100000000?text=Hola!%20Me%20interesa%20una%20alfombra%20del%20catalogo." target="_blank" class="modal-option">
+        <div class="modal-option-icon icon-wa">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </div>
+        <div>
+          <div style="font-weight:500; font-size:0.88rem;">WhatsApp</div>
+          <div style="font-size:0.78rem; color:var(--brown-mid); opacity:0.7;">Respuesta rapida</div>
+        </div>
+      </a>
+      <a href="mailto:info@casaalfombras.com?subject=Consulta%20sobre%20alfombra" class="modal-option">
+        <div class="modal-option-icon icon-email">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div style="font-weight:500; font-size:0.88rem;">Email</div>
+          <div style="font-size:0.78rem; color:var(--brown-mid); opacity:0.7;">info@casaalfombras.com</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== PRODUCT DATA =====
+  const products = [
+    {
+      id: 1, category: 'marroqui', badge: 'new',
+      name: 'Karim Marroqui Roja',
+      desc: 'Patron estrella tradicional tejido a mano con lana merino de alta calidad.',
+      size: '2 x 3 m', material: 'Lana',
+      colors: ['#8B3A2A','#E8C880','#C17E5C'],
+      pattern: 'moroccan',
+      svgPattern: `<pattern id="p1" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse"><rect width="48" height="48" fill="#8B3A2A"/><path d="M24,4 L44,24 L24,44 L4,24 Z" fill="none" stroke="#E8C880" stroke-width="1.5"/><circle cx="24" cy="24" r="5" fill="#E8C880"/><circle cx="24" cy="24" r="2" fill="#8B3A2A"/></pattern>`
+    },
+    {
+      id: 2, category: 'geometrico', badge: 'classic',
+      name: 'Zara Geometrica Verde',
+      desc: 'Disenada con un patron romboidal contemporaneo sobre base natural.',
+      size: '1.5 x 2 m', material: 'Algodon',
+      colors: ['#3D5A3E','#D6C4A0','#7A8C6E'],
+      pattern: 'geometric',
+      svgPattern: `<pattern id="p2" x="0" y="0" width="44" height="44" patternUnits="userSpaceOnUse"><rect width="44" height="44" fill="#3D5A3E"/><polygon points="22,6 38,22 22,38 6,22" fill="none" stroke="#D6C4A0" stroke-width="1.5"/><rect x="17" y="17" width="10" height="10" fill="#7A8C6E"/></pattern>`
+    },
+    {
+      id: 3, category: 'persa', badge: 'limited',
+      name: 'Kashan Imperial',
+      desc: 'Tejido persa tradicional con medallones florales y borde doble.',
+      size: '2.5 x 3.5 m', material: 'Lana pura',
+      colors: ['#1A2A4A','#C9973A','#8B1A1A'],
+      pattern: 'persian',
+      svgPattern: `<pattern id="p3" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse"><rect width="50" height="50" fill="#1A2A4A"/><path d="M25,5 L45,25 L25,45 L5,25 Z" fill="none" stroke="#C9973A" stroke-width="1.5"/><circle cx="25" cy="25" r="6" fill="none" stroke="#C9973A" stroke-width="1"/><circle cx="25" cy="25" r="2" fill="#C9973A"/></pattern>`
+    },
+    {
+      id: 4, category: 'boho', badge: 'new',
+      name: 'Luna Boho Natural',
+      desc: 'Estilo bohemio con flecos naturales y combinacion de fibras organicas.',
+      size: '1.6 x 2.3 m', material: 'Yute y lana',
+      colors: ['#D4896D','#F5D5B8','#B5624A'],
+      pattern: 'boho',
+      svgPattern: `<pattern id="p4" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse"><rect width="30" height="30" fill="#D4896D"/><line x1="0" y1="15" x2="30" y2="15" stroke="#F5D5B8" stroke-width="1.5"/><line x1="15" y1="0" x2="15" y2="30" stroke="#B5624A" stroke-width="1"/><circle cx="15" cy="15" r="4" fill="#F5D5B8" opacity="0.5"/></pattern>`
+    },
+    {
+      id: 5, category: 'moderno', badge: 'classic',
+      name: 'Atlas Moderno Carbon',
+      desc: 'Lineas limpias y paleta oscura para interiores contemporaneos.',
+      size: '2 x 2 m', material: 'Viscosa',
+      colors: ['#2A1A0E','#5C3A22','#C9973A'],
+      pattern: 'modern',
+      svgPattern: `<pattern id="p5" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><rect width="40" height="40" fill="#2A1A0E"/><rect x="0" y="0" width="20" height="20" fill="#3A2510"/><rect x="20" y="20" width="20" height="20" fill="#3A2510"/><line x1="0" y1="0" x2="40" y2="40" stroke="#C9973A" stroke-width="0.5" opacity="0.4"/></pattern>`
+    },
+    {
+      id: 6, category: 'nordico', badge: 'new',
+      name: 'Freya Nordica Ivory',
+      desc: 'Patron escandinavo minimalista en tonos naturales calidos.',
+      size: '1.8 x 2.5 m', material: 'Lana neozelanda',
+      colors: ['#EDEDEA','#C8C4B8','#7A7A72'],
+      pattern: 'nordic',
+      svgPattern: `<pattern id="p6" x="0" y="0" width="36" height="36" patternUnits="userSpaceOnUse"><rect width="36" height="36" fill="#EDEDEA"/><line x1="0" y1="0" x2="36" y2="36" stroke="#C8C4B8" stroke-width="1"/><line x1="36" y1="0" x2="0" y2="36" stroke="#C8C4B8" stroke-width="1"/><circle cx="18" cy="18" r="3" fill="#7A7A72"/></pattern>`
+    },
+    {
+      id: 7, category: 'marroqui', badge: 'classic',
+      name: 'Beni Ourain Blanco',
+      desc: 'La alfombra beni mas iconica de Marruecos, con lineas tribales negras.',
+      size: '2 x 3 m', material: 'Lana virgen',
+      colors: ['#F5F0E8','#2A1A0E','#C8C4B8'],
+      pattern: 'boho',
+      svgPattern: `<pattern id="p7" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse"><rect width="48" height="48" fill="#F5F0E8"/><line x1="0" y1="0" x2="48" y2="48" stroke="#2A1A0E" stroke-width="1.5"/><line x1="48" y1="0" x2="0" y2="48" stroke="#2A1A0E" stroke-width="1.5"/><rect x="20" y="20" width="8" height="8" fill="#2A1A0E"/></pattern>`
+    },
+    {
+      id: 8, category: 'persa', badge: 'limited',
+      name: 'Tabriz Floral Vino',
+      desc: 'Ornamentacion floral persa con un fondo color vino profundo.',
+      size: '3 x 4 m', material: 'Seda y lana',
+      colors: ['#5C1A2A','#C9973A','#D4896D'],
+      pattern: 'persian',
+      svgPattern: `<pattern id="p8" x="0" y="0" width="52" height="52" patternUnits="userSpaceOnUse"><rect width="52" height="52" fill="#5C1A2A"/><path d="M26,6 L46,26 L26,46 L6,26 Z" fill="none" stroke="#C9973A" stroke-width="2"/><circle cx="26" cy="26" r="7" fill="none" stroke="#D4896D" stroke-width="1.5"/><circle cx="26" cy="26" r="3" fill="#C9973A"/></pattern>`
+    },
+    {
+      id: 9, category: 'geometrico', badge: 'new',
+      name: 'Berber Azul Celeste',
+      desc: 'Patron bereber contemporaneo en celeste con detalles en arena.',
+      size: '1.4 x 2 m', material: 'Algodon y lana',
+      colors: ['#4A7A9B','#D6C4A0','#F5F0E8'],
+      pattern: 'geometric',
+      svgPattern: `<pattern id="p9" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><rect width="40" height="40" fill="#4A7A9B"/><polygon points="20,4 36,20 20,36 4,20" fill="none" stroke="#D6C4A0" stroke-width="1.5"/><rect x="16" y="16" width="8" height="8" fill="#F5F0E8" opacity="0.6"/></pattern>`
+    },
+  ];
+
+  const badgeLabels = { new: 'Nuevo', limited: 'Edicion Limitada', classic: 'Clasico' };
+  const badgeClasses = { new: 'badge-new', limited: 'badge-limited', classic: 'badge-classic' };
+
+  function buildCard(p) {
+    const colDots = p.colors.map(c => `<span class="color-dot" style="background:${c}"></span>`).join('');
+    return `
+      <div class="product-card" data-category="${p.category}">
+        <div class="card-img-wrap">
+          <div class="card-img-inner">
+            <svg viewBox="0 0 280 350" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+              <defs>${p.svgPattern}</defs>
+              <rect width="280" height="350" fill="url(#p${p.id})"/>
+              <rect x="12" y="12" width="256" height="326" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+              <rect x="20" y="20" width="240" height="310" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+            </svg>
+          </div>
+          <span class="card-badge ${badgeClasses[p.badge]}">${badgeLabels[p.badge]}</span>
+          <div class="card-overlay">
+            <button class="card-inquire-btn" onclick="openModal('${p.name}')">Consultar precio</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">${p.category.charAt(0).toUpperCase() + p.category.slice(1)}</div>
+          <div class="card-name">${p.name}</div>
+          <div class="card-desc">${p.desc}</div>
+          <div class="card-meta">
+            <div class="card-meta-item">
+              <span class="meta-label">Medida</span>
+              <span class="meta-value">${p.size}</span>
+            </div>
+            <div class="card-meta-item">
+              <span class="meta-label">Material</span>
+              <span class="meta-value">${p.material}</span>
+            </div>
+            <div class="card-colors">${colDots}</div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function renderCatalog(filter) {
+    const grid = document.getElementById('catalog-grid');
+    const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
+    grid.innerHTML = filtered.map(buildCard).join('');
+    document.getElementById('count-label').textContent = `Mostrando ${filtered.length} productos`;
+  }
+
+  // FILTER BUTTONS
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderCatalog(btn.dataset.filter);
+    });
+  });
+
+  // MODAL
+  function openModal(name) {
+    const modal = document.getElementById('modal');
+    document.getElementById('modal-title').textContent = name || 'Consultar producto';
+    document.getElementById('modal-sub').textContent = 'Contactanos para precio y disponibilidad';
+    modal.classList.add('open');
+  }
+
+  function closeModal(e) {
+    if (e.target === document.getElementById('modal')) closeModalDirect();
+  }
+
+  function closeModalDirect() {
+    document.getElementById('modal').classList.remove('open');
+  }
+
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = 'Consulta enviada!';
+    btn.style.background = 'var(--sage)';
+    setTimeout(() => {
+      btn.textContent = 'Enviar Consulta';
+      btn.style.background = 'var(--terracotta)';
+      e.target.reset();
+    }, 3000);
+  }
+
+  // INITIAL RENDER
+  renderCatalog('all');
+</script>
+</body>
+</html>
